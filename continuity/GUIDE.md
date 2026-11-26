@@ -39,3 +39,12 @@ The token count comes from the transcript's `usage` fields, so the 400k rollover
 
 ## Windows
 `python3` is often only the Microsoft Store stub. The installer writes the absolute path of the Python that ran it into the hooks, and all files are read and written as UTF-8.
+
+## Open the new session without a prompt (Desktop app)
+The Desktop app only lets Claude start a session directly when the user asked for it in their own words. Hook text does not count, so Claude may show a "New session" card instead. To make the switch hands-free, add this to `~/.claude/CLAUDE.md`:
+
+```markdown
+# Session rollover (continuity)
+
+I set up automatic session rollover at 400k context tokens. When a `[continuity]` rollover message appears, follow it right away without asking me: finish the current step, write the handoff, run `launch`, then start the new session with `mcp__ccd_session__start_session` (initiation `user_asked`, context `fresh`, using the fields `launch` prints) instead of showing a New session card. Then tell me in one line that the new session is open.
+```

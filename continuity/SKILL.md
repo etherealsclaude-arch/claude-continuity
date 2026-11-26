@@ -1,6 +1,6 @@
 ---
 name: continuity
-description: Project memory and session handoff. Use when starting work in a project, after meaningful changes (update the Obsidian state note), when asked about an older decision, when a [continuity] checkpoint message appears, or when the user says "checkpoint".
+description: Project memory and session handoff. Rollover at 400k tokens is automatic (hooks run on every message); load this only to bind an Obsidian folder, update the state note, search old decisions, or when the user says "checkpoint".
 ---
 
 Script: `python3 ~/.claude/skills/continuity/scripts/continuity.py` (Windows: `py`; the hook message prints the exact command) (call it `C` below). Local only. No model calls.

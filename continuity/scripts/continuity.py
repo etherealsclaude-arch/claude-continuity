@@ -216,9 +216,9 @@ def hook_start(p, sid, pid, b):
     with lock(f"t-{pid}"):
         t = jload(tf)
         if not t or t.get("status") not in ("ready", "launched") or t.get("sid") == sid or time.time() - t.get("created", 0) > 3 * 86400:
-            return out_ctx("SessionStart", "[continuity] active. " + ("Project bound; keep the state note current; user can say \"checkpoint\"." if b else "Project not bound: on first real work use the continuity skill to ask where notes go.") )
+            return  # nothing to continue: stay silent; the per-message hooks handle rollover on their own
         text = re.sub(r"\A---.*?---\n", "", Path(t["handoff"]).read_text(encoding="utf-8"), count=1, flags=re.S)[:3500] if Path(t["handoff"]).exists() else ""
-        if not text: return out_ctx("SessionStart", "[continuity] active.")
+        if not text: return
         t.update(status="claimed", successor=sid, claimed=time.time()); jsave(tf, t)
     note = (pdir(b) / "current-state.md") if b else None
     out_ctx("SessionStart", f"[continuity] Continuing '{t.get('title')}'. Handoff {t['handoff']} (read, claimed). "
